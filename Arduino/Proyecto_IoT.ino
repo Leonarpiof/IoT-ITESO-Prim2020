@@ -5,11 +5,14 @@
 #include <String.h>
 
 /** Use Telcel's APN*/
-#define TELCEL		(1)
+#define TELCEL			(1)
 /** Use AT&T's APN (Mexico)*/
-#define AT_T		(0)
+#define AT_T			(0)
 /** Use Movistar's APN*/
-#define MOVISTAR	(0)
+#define MOVISTAR		(0)
+
+/** Sets a test message to the buffer*/
+#define TEST_MSG		(1)
 
 /** Use Mosquitto test broker DO NOT PUBLISH SENSITIVE DATA*/
 /** Mosquitto test broker is public, so anyone may be listening,
@@ -26,7 +29,7 @@ do not publish any sensitive data.*/
 #define SER_PORT_BR		(115200)
 
 /** Defines the time between two messages*/
-#define DELAY_TIME		(60000000)
+#define DELAY_TIME		(60000)
 
 /** Object for the I2C sensor*/
 I2CSoilMoistureSensor sensor;
@@ -63,18 +66,39 @@ const char password[] = "movistar";
 
 #if(MOSQUITTO_BRK)
 /** Mosquitto server address*/
-const char mqtt_server[] = "test.mosquitto.org"
+const char mqtt_server[] = "test.mosquitto.org";
 #else
 /** AWS server address*/
-const char mqtt_server[] = ""
+const char mqtt_server[] = "";
 #endif
 
 /** Variables to store the device's IMEI*/
 String imei_str;
 char IMEI[IMEI_SIZE] = {0};
 
+/** MQTT topic into which the data will be published*/
+const char topic[] = "/greenhouse1/secA";
+
 /** Array to store the message to be sent*/
 char msg_to_be_sent[MSG_SIZE] = {0};
+/** Length of the message to be sent*/
+int msg_to_be_sent_len = 0;
+/** Password for the XOR cipher*/
+const char xor_password[MSG_SIZE] =
+{
+	43, 137, 1, 171, 45, 180, 76, 95, 44, 88, 180,
+	24, 255, 62, 157, 171, 24, 163, 154, 4, 179,
+	122, 157, 33, 144, 239, 62, 63, 210, 123, 60,
+	176, 108, 232, 175, 144, 250, 68, 85, 64, 138,
+	182, 172, 4, 222, 11, 23, 94, 62, 83, 51, 150,
+	72, 69, 211, 23, 227, 6, 50, 222, 194, 31, 225,
+	164, 134, 114, 199, 219, 47, 79, 56, 35, 87,
+	207, 80, 139, 8, 213, 84, 116, 140, 160, 140,
+	46, 84, 151, 126, 251, 83, 128, 146, 252, 31,
+	78, 197, 23, 252, 150, 227, 5
+};
+/** Counter for the XOR application*/
+int xor_counter = 0;
 
 /** Network object*/
 GSMClient net;
@@ -134,7 +158,7 @@ void setup()
 {
 	/** Initializes serial communication through USB*/
 	Serial.begin(SER_PORT_BR);
-	Serial.println("Initialized");
+	Serial.print("Initialized\n");
 
 	/** Connects to MQTT broker*/
 	client.begin(mqtt_server, net);
@@ -167,7 +191,25 @@ void loop()
 	{
 		/** Gets current time*/
 		lastMillis = millis();
+
+#if(TEST_MSG)
+		msg_to_be_sent[0] = 'W';
+		msg_to_be_sent[1] = 'o';
+		msg_to_be_sent[2] = 'r';
+		msg_to_be_sent[3] = 'l';
+		msg_to_be_sent[4] = 'd';
+		msg_to_be_sent_len = 5;
+#endif
+
+		/** XOR between each message character, and the password*/
+		for(xor_counter = 0 ; xor_counter < msg_to_be_sent_len ; xor_counter ++)
+		{
+			msg_to_be_sent[xor_counter]  = (msg_to_be_sent[xor_counter] ^ xor_password[xor_counter]);
+		}
+
 		/** Publishes a message*/
-		client.publish("/hello", "world");
+		client.publish(topic, msg_to_be_sent, msg_to_be_sent_len);
+
+		Serial.println("\nPublish!");
 	}
 }
