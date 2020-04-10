@@ -12,7 +12,7 @@ This project uses the following libraries:
 
 ### Documentation
 Contains the documentation made during the project, which contains the research plan, comparative tables, requirements, business model,
-customer journey, and others.
+customer journey, and others. **All documentas are in Spanish**.
 
 ### Lambda
 
