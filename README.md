@@ -1,5 +1,5 @@
 #IoT-ITESO-Prim2020
-This repo contains the documentation and generated files during the IoT project of spring 2020 at ITESO, by Leon Arpio Fernandez
+\tThis repo contains the documentation and generated files during the IoT project of spring 2020 at ITESO, by Leon Arpio Fernandez
 
 ##Folders
 ###Arduino
