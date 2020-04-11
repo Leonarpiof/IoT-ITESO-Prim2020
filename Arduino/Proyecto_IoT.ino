@@ -140,7 +140,7 @@ void connect()
 	/** Connection state*/
 	bool connected = false;
 
-	Serial.print("connecting to cellular network ...");
+	Serial.print("\nconnecting to cellular network ...");
 
 	/** After starting the modem with gsmAccess.begin()
 	attach to the GPRS network with the APN, login and password */
@@ -175,14 +175,16 @@ void connect()
 	/** Automatic cipher suite*/
     profile.setCipher(SSL_CIPHER_AUTO);
 	/** Sets the SSL client profile*/
-    net_client.setSecurityProfile(profile);
+    //net_client.setSecurityProfile(profile);
 
 	Serial.print("\nconnecting...");
 
 	/** Connects to the MQTT server*/
-	while (!client.connect(IMEI))
+	while (!client.connect("357520077334163"))
 	{
-		Serial.print(".");
+		//Serial.print(".");
+		Serial.println(client.lastError());
+		Serial.println(client.returnCode());
 		delay(1000);
 	}
 
@@ -196,7 +198,7 @@ void setup()
 	Serial.begin(SER_PORT_BR);
 	Serial.print("Initialized\n");
 
-	/** Connects to MQTT broker*/
+	/** Sets to MQTT broker*/
 	client.begin(mqtt_server, PORT, net_client);
 	/** Initializes modem functions*/
 	modem.begin();
@@ -204,6 +206,7 @@ void setup()
 	/** Gets the device's IMEI, and sets it to a char variable*/
 	imei_str = (modem.getIMEI());
 	imei_str.toCharArray(IMEI, sizeof(IMEI));
+	Serial.print(IMEI);
 
 	/** Connects to cellular network and MQTT broker*/
 	connect();
