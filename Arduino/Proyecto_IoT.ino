@@ -3,6 +3,11 @@
 #include <I2CSoilMoistureSensor.h>
 #include <Wire.h>
 #include <String.h>
+#include <GSMSSLClient.h>
+#include <GSMSecurity.h>
+//#include <PubSubClient.h>
+
+#include "secrets.h"
 
 /** Use Telcel's APN*/
 #define TELCEL			(1)
@@ -14,12 +19,20 @@
 /** Sets a test message to the buffer*/
 #define TEST_MSG		(1)
 
+#define SSL_EN			(1)
+
 /** Use Mosquitto test broker DO NOT PUBLISH SENSITIVE DATA*/
 /** Mosquitto test broker is public, so anyone may be listening,
 do not publish any sensitive data.*/
-#define MOSQUITTO_BRK	(1)
+#define MOSQUITTO_BRK	(0)
 /** Use AWS broker*/
-#define AWS_BRK			(0)
+#define AWS_BRK			(1)
+
+/** Port to which the device will connect.
+	Usually:
+	1883 -> MQTT not secure
+	8883 -> MQTT secure*/
+#define PORT			(8883)
 /** Max message size*/
 #define MSG_SIZE		(100)
 /** IMEI size*/
@@ -69,7 +82,7 @@ const char password[] = "movistar";
 const char mqtt_server[] = "test.mosquitto.org";
 #else
 /** AWS server address*/
-const char mqtt_server[] = "";
+const char mqtt_server[] = "a2rn7z7nyv71kk-ats.iot.us-east-2.amazonaws.com";
 #endif
 
 /** Variables to store the device's IMEI*/
@@ -100,8 +113,15 @@ const char xor_password[MSG_SIZE] =
 /** Counter for the XOR application*/
 int xor_counter = 0;
 
-/** Network object*/
-GSMClient net;
+#if(SSL_EN)
+/** Object for the SSL client*/
+GSMSSLClient net_client;
+#else
+/** Objecto for the client (Not SSL)*/
+GSMClient net_client;
+#endif
+/** Object for security*/
+GSMSecurity profile;
 /** Object to access IMEI*/
 GSMModem modem;
 /** Object to attach to a network*/
@@ -141,10 +161,26 @@ void connect()
 		/** Repeats process until connected to network*/
 	}
 
+	Serial.print("\nImporting certificates...");
+
+	/** Uploads the certificates defined in secrets.h*/
+	profile.setRootCertificate(SECRET_ROOT_CERT);
+    profile.setClientCertificate(SECRET_CLIENT_CERT);
+    profile.setPrivateKey(SECRET_PRIVATE_KEY);
+
+	/** Validation by root certificate*/
+    profile.setValidation(SSL_VALIDATION_ROOT_CERT);
+	/** Any SSL version may be used*/
+    profile.setVersion(SSL_VERSION_ANY);
+	/** Automatic cipher suite*/
+    profile.setCipher(SSL_CIPHER_AUTO);
+	/** Sets the SSL client profile*/
+    net_client.setSecurityProfile(profile);
+
 	Serial.print("\nconnecting...");
 
 	/** Connects to the MQTT server*/
-	while (!client.connect(IMEI, false))
+	while (!client.connect(IMEI))
 	{
 		Serial.print(".");
 		delay(1000);
@@ -161,7 +197,7 @@ void setup()
 	Serial.print("Initialized\n");
 
 	/** Connects to MQTT broker*/
-	client.begin(mqtt_server, net);
+	client.begin(mqtt_server, PORT, net_client);
 	/** Initializes modem functions*/
 	modem.begin();
 
