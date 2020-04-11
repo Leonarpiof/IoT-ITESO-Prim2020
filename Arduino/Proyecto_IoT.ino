@@ -1,14 +1,20 @@
-#include <MKRGSM.h>
+/**************** INCLUDES **************************************************/
 #include <MQTT.h>
 #include <I2CSoilMoistureSensor.h>
 #include <Wire.h>
 #include <String.h>
 #include <GSMSSLClient.h>
 #include <GSMSecurity.h>
-//#include <PubSubClient.h>
+#include <GSMModem.h>
+#include <GPRS.h>
+#include <PubSubClient.h>
 
 #include "secrets.h"
+/**************** INCLUDES **************************************************/
 
+
+
+/**************** DEFINES ***************************************************/
 /** Use Telcel's APN*/
 #define TELCEL			(1)
 /** Use AT&T's APN (Mexico)*/
@@ -43,7 +49,11 @@ do not publish any sensitive data.*/
 
 /** Defines the time between two messages*/
 #define DELAY_TIME		(60000)
+/**************** DEFINES ***************************************************/
 
+
+
+/**************** VARIABLES *************************************************/
 /** Object for the I2C sensor*/
 I2CSoilMoistureSensor sensor;
 
@@ -114,11 +124,17 @@ const char xor_password[MSG_SIZE] =
 int xor_counter = 0;
 
 #if(SSL_EN)
+
 /** Object for the SSL client*/
 GSMSSLClient net_client;
+/** Secure MQTT SSL client*/
+PubSubClient mqttClient(mqtt_server, PORT, net_client);
+
 #else
-/** Objecto for the client (Not SSL)*/
+
+/** Object for the client (Not SSL)*/
 GSMClient net_client;
+
 #endif
 /** Object for security*/
 GSMSecurity profile;
@@ -133,7 +149,11 @@ MQTTClient client;
 
 /** Variable to keep count of time*/
 unsigned long lastMillis = 0;
+/**************** VARIABLES *************************************************/
 
+
+
+/**************** CONNECT ***************************************************/
 /** Connects to both cellular network, and MQTT server*/
 void connect()
 {
@@ -180,7 +200,11 @@ void connect()
 	Serial.print("\nconnecting...");
 
 	/** Connects to the MQTT server*/
+#if(SSL_EN)
+	while (!mqttClient.connect(IMEI))
+#else
 	while (!client.connect(IMEI))
+#endif
 	{
 		Serial.print(".");
 		delay(1000);
@@ -188,7 +212,11 @@ void connect()
 
 	Serial.println("\nconnected!");
 }
+/**************** CONNECT ***************************************************/
 
+
+
+/**************** SETUP *****************************************************/
 /** Setup functions*/
 void setup()
 {
@@ -196,19 +224,26 @@ void setup()
 	Serial.begin(SER_PORT_BR);
 	Serial.print("Initialized\n");
 
+#if(!SSL_EN)
 	/** Connects to MQTT broker*/
 	client.begin(mqtt_server, PORT, net_client);
+#endif
 	/** Initializes modem functions*/
 	modem.begin();
 
 	/** Gets the device's IMEI, and sets it to a char variable*/
 	imei_str = (modem.getIMEI());
 	imei_str.toCharArray(IMEI, sizeof(IMEI));
+	Serial.print(imei_str);
 
 	/** Connects to cellular network and MQTT broker*/
 	connect();
 }
+/**************** SETUP *****************************************************/
 
+
+
+/**************** LOOP ******************************************************/
 /** Loop forever*/
 void loop()
 {
@@ -217,7 +252,11 @@ void loop()
 
 	/** If the device is disconnected, tries to connect
 	again */
+#if(SSL_EN)
+	if (!mqttClient.connected())
+#else
 	if (!client.connected())
+#endif
 	{
 		connect();
 	}
@@ -244,8 +283,13 @@ void loop()
 		}
 
 		/** Publishes a message*/
+#if(SSL_EN)
+		mqttClient.publish(topic, msg_to_be_sent, msg_to_be_sent_len);
+#else
 		client.publish(topic, msg_to_be_sent, msg_to_be_sent_len);
+#endif
 
 		Serial.println("\nPublish!");
 	}
 }
+/**************** LOOP ******************************************************/
