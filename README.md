@@ -7,6 +7,7 @@ Contains the source code of the project, in which the sensors are read, and data
 using MQTT. This project is made for the Arduino MKR GSM 1400.
 
 This project uses the following libraries:
+- [Arduino MKR GSM libraries](https://github.com/arduino-libraries/MKRGSM)
 - [MQTT library for Arduino](https://github.com/256dpi/arduino-mqtt)
 - [I2C Soil Moisture Sensor](https://github.com/Apollon77/I2CSoilMoistureSensor)
 
