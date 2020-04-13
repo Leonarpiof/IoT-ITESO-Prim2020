@@ -24,11 +24,8 @@ def post_request(payload):
 
 	# Processes results
 	if status >= 400:
-		print("[ERROR] Could not send data after 5 attempts, please check \
-			\nyour token credentials and internet connection")
 		return False
 
-	print("[INFO] request made properly, your device is updated")
 	return True
 
 def lambda_handler(event, context):
