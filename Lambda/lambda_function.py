@@ -21,13 +21,10 @@ def lambda_handler(event, context):
 	ubi_client.username_pw_set("BBFF-mimwlgWwTC29aKimKv0jOU57SVNikeEK6J58eJqeibsoxMtNgqoFA4m")
 	ubi_client.connect(ubidots_broker, PORT)
 
-	while(!connect):
+	while not connect:
 		a = 1
 
 	ubi_client.publish(topic, message)
 
     # TODO implement
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
-    }
+	return {'statusCode': 200, 'body': json.dumps('Hello from Lambda!')}
