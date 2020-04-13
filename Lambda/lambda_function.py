@@ -48,12 +48,12 @@ def post_request(payload):
 
 # Lambda function handler
 def lambda_handler(event, context):
-	event("temp") ^= temp_pswd
-	event("hum") ^= hum_pswd
-	event("lum") ^= lum_pswd
+	event["temp"] ^= temp_pswd
+	event["hum"] ^= hum_pswd
+	event["lum"] ^= lum_pswd
 
 	# Publishes the message to ubidots via HTTP
-	post_request(message)
+	post_request(event)
 
     # Return value
 	return {'statusCode': 200, 'body': json.dumps('Hello from Lambda!')}
