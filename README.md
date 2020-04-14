@@ -16,6 +16,10 @@ Contains the documentation made during the project, which contains the research 
 customer journey, and others. **All documentas are in Spanish**.
 
 ### Lambda
+Contains the Lambda deploy package, which has the lambda function handler, and the necessary libraries for the project to work, that are not included in AWS Lambda. Developed in Python 3.8
 
 ### Schematics
 Contains the schematics made for the project, and other PCB related files, such as the board file and the BOM.
+
+### Scripts
+Contains scripts to test different elements such as Ubidots, Mosquitto, and other features. For this scripts to work, it is necessary to install paho-mqtt and requests. Scripts developed in Python 3.8.1
