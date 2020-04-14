@@ -8,12 +8,15 @@ TOKEN = "BBFF-mimwlgWwTC29aKimKv0jOU57SVNikeEK6J58eJqeibsoxMtNgqoFA4m"
 # Ubidots stem address
 address = "http://industrial.api.ubidots.com"
 
-# Message to be published
-#message = {'temp':25,'hum':40,'lum':8000}
-
+# Passwords to decrypt the message
 temp_pswd = 0x4D3
 hum_pswd = 0x6FA
 lum_pswd = 0xC37B8
+
+# Object to manage DynamoDB
+dynamodb = boto3.resource('dynamodb')
+# Object to manage the table IoT_DB
+table = dynamodb.Table('IoT_DB')
 
 # Posts via HTTP to ubidots
 def post_request(payload, device_label):
@@ -50,16 +53,20 @@ def lambda_handler(event, context):
 	# Dictionary to be sent to Ubidots with error values
 	msg_to_be_sent = {"temp":{"value": -1, "timestamp": 0}, "hum":-1, "lum":-1}
 
+	# Decrypts the messages
 	event["temp"] ^= temp_pswd
 	event["hum"] ^= hum_pswd
 	event["lum"] ^= lum_pswd
 
-	msg_to_be_sent["temp"] = {"value":event["temp"], "timestamp":event["timestamp"]}
+	# Sets the dictionary to be sent to Ubidots
+	msg_to_be_sent["temp"] = event["temp"]
 	msg_to_be_sent["hum"] = event["hum"]
 	msg_to_be_sent["lum"] = event["lum"]
 
-	# Publishes the message to ubidots via HTTP
+	table.put_item(Item = event)
+
+	# Publishes the message to ubidots via HTTP, to the proper device
 	post_request(msg_to_be_sent, event["IMEI"])
 
     # Return value
-	return(str(event))
+	return {'statusCode': 200, 'body': json.dumps(msg_to_be_sent)}
