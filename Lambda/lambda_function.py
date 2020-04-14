@@ -63,6 +63,7 @@ def lambda_handler(event, context):
 	msg_to_be_sent["hum"] = event["hum"]
 	msg_to_be_sent["lum"] = event["lum"]
 
+	# Puts data received into DynamoDB
 	table.put_item(Item = event)
 
 	# Publishes the message to ubidots via HTTP, to the proper device
