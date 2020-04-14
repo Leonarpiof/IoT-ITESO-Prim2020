@@ -23,8 +23,9 @@
 #define MOVISTAR		(0)
 
 /** Sets a test message to the buffer*/
-#define TEST_MSG		(1)
+#define TEST_MSG		(0)
 
+/** Enables or disables the use of SSL*/
 #define SSL_EN			(0)
 
 /** Use Mosquitto test broker DO NOT PUBLISH SENSITIVE DATA*/
@@ -43,12 +44,19 @@ do not publish any sensitive data.*/
 #define MSG_SIZE		(100)
 /** IMEI size*/
 #define IMEI_SIZE		(16)
+/** Size for the temp buffer*/
+#define TEMP_BUFF_SIZE	(20)
 
 /** Serial port baud rate*/
 #define SER_PORT_BR		(115200)
 
-/** Defines the time between two messages*/
+/** Defines the time between two messages (ms)*/
 #define DELAY_TIME		(60000)
+/** Defines the delay between two I2C readings (ms)*/
+#define I2C_DELAY		(50)
+
+/** Defines the value to set decimal base (itoa function)*/
+#define DECIMAL_BASE	(10)
 /**************** DEFINES ***************************************************/
 
 
@@ -68,6 +76,9 @@ int light_calc = 0;
 int humidity = 0;
 /** Variable for the temperature*/
 int temperature = 0;
+
+/** Variable for the timestamp*/
+int timestamp = 0;
 
 /** SIM pin*/
 const char pin[]  = "1111";
@@ -106,24 +117,43 @@ const char topic[] = "/greenhouse1/secA";
 
 /** Array to store the message to be sent*/
 char msg_to_be_sent[MSG_SIZE] = {0};
+/** Buffer to construct the message and then send it*/
+String msg_buff = "";
 /** Length of the message to be sent*/
 int msg_to_be_sent_len = 0;
-/** Password for the XOR cipher*/
-const char xor_password[MSG_SIZE] =
-{
-	43, 137, 1, 171, 45, 180, 76, 95, 44, 88, 180,
-	24, 255, 62, 157, 171, 24, 163, 154, 4, 179,
-	122, 157, 33, 144, 239, 62, 63, 210, 123, 60,
-	176, 108, 232, 175, 144, 250, 68, 85, 64, 138,
-	182, 172, 4, 222, 11, 23, 94, 62, 83, 51, 150,
-	72, 69, 211, 23, 227, 6, 50, 222, 194, 31, 225,
-	164, 134, 114, 199, 219, 47, 79, 56, 35, 87,
-	207, 80, 139, 8, 213, 84, 116, 140, 160, 140,
-	46, 84, 151, 126, 251, 83, 128, 146, 252, 31,
-	78, 197, 23, 252, 150, 227, 5
-};
+/** Temporal buffer to convert from integers to ASCII*/
+char temp_buff[TEMP_BUFF_SIZE] = {0};
+/** Length of the content of the temporal buffer*/
+int temp_buff_len = 0;
+
+/** Password to encrypt temperature value*/
+int temperature_pswd = 0x4D3;
+/** Password to encrypt humidity value*/
+int humidity_pswd = 0x6FA;
+/** Password to encrypt luminosity value*/
+int luminosity_pswd = 0xC37B8;
+/** Password to encrypt timestamp value*/
+int timestamp_pswd;
+
 /** Counter for the XOR application*/
 int xor_counter = 0;
+
+/** JSON string for IMEI*/
+const char imei_json[] = "{\"IMEI\":";
+/** JSON string for timestamp*/
+const char time_json[] = "\"timestamp\":";
+/** JSON string for temperature*/
+const char temp_json[] = "\"temp\":";
+/** JSON string for humidity*/
+const char hum_json[] = "\"hum\":";
+/** JSON string for luminosity*/
+const char lum_json[] = "\"lum\":";
+/** Quotes character for JSON message*/
+const char quotes = '\"';
+/** Comma character for JSON message*/
+const char comma = ',';
+/** Closing braces for JSON message*/
+const char eom = '}';
 
 #if(SSL_EN)
 
@@ -223,9 +253,9 @@ void setup()
 	Serial.print(imei_str);
 
 	/** Initializes I2C for sensor reading*/
-	Wire.begin()
+	Wire.begin();
 	/** Initializes the I2C Soil Moisture sensor*/
-	sensor.begin()
+	sensor.begin();
 
 	/** Connects to cellular network and MQTT broker*/
 	connect();
@@ -258,18 +288,30 @@ void loop()
 		/** Gets current time*/
 		lastMillis = millis();
 
+		/** Gets the timestamp
+			The timestamp format for MKR GSM 1400 is the seconds
+			passed since January 1st, 1970*/
+		timestamp = gsmAccess.getTime();
+
 		/** Reads the temperature*/
 	    temperature = sensor.getTemperature();
 	    /** Gives a small delay for the I2C buffer to respond*/
-	    delay(50);
+	    delay(I2C_DELAY);
 	    /** Reads the humidity*/
 	    humidity = sensor.getCapacitance();
 
 		/** Reads the light sensor*/
-		light_read	= analogRead(light_pin)
+		light_read	= analogRead(light_pin);
 		/** Calculates the luminosity in Lux*/
 		light_calc = (light_calc / (10 * 68000 * 0.000001 * 1.1075));
 		light_calc = pow(10, light_calc);
+
+		/** Pass the variables through the passwords*/
+		timestamp ^= timestamp_pswd;
+		temperature ^= temperature_pswd;
+		humidity ^= humidity_pswd;
+		light_calc ^= luminosity_pswd;
+
 
 #if(TEST_MSG)
 		msg_to_be_sent[0] = 'W';
@@ -278,13 +320,56 @@ void loop()
 		msg_to_be_sent[3] = 'l';
 		msg_to_be_sent[4] = 'd';
 		msg_to_be_sent_len = 5;
-#endif
+#else
+		/** Erases string buffers*/
+		memset(msg_to_be_sent, '\0', sizeof(msg_to_be_sent));
 
-		/** XOR between each message character, and the password*/
-		for(xor_counter = 0 ; xor_counter < msg_to_be_sent_len ; xor_counter ++)
-		{
-			msg_to_be_sent[xor_counter]  = (msg_to_be_sent[xor_counter] ^ xor_password[xor_counter]);
-		}
+		/** Sets the first variable {"IMEI":"value"*/
+		strcat(msg_to_be_sent, imei_json);
+		strcat(msg_to_be_sent, &quotes);
+		strcat(msg_to_be_sent, IMEI);
+		strcat(msg_to_be_sent, &quotes);
+
+		strcat(msg_to_be_sent, &comma);
+
+		/** Sets the timestamp "timestamp":value*/
+		strcat(msg_to_be_sent, time_json);
+		memset(temp_buff, '\0', sizeof(temp_buff));
+		itoa(timestamp, temp_buff, DECIMAL_BASE);
+		strcat(msg_to_be_sent, temp_buff);
+
+		strcat(msg_to_be_sent, &comma);
+
+		/** Sets the temperature "temp":value*/
+		strcat(msg_to_be_sent, temp_json);
+		memset(temp_buff, '\0', sizeof(temp_buff));
+		itoa(temperature, temp_buff, DECIMAL_BASE);
+		strcat(msg_to_be_sent, temp_buff);
+
+		strcat(msg_to_be_sent, &comma);
+
+		/** Sets the humidity "hum":value*/
+		strcat(msg_to_be_sent, hum_json);
+		memset(temp_buff, '\0', sizeof(temp_buff));
+		itoa(humidity, temp_buff, DECIMAL_BASE);
+		strcat(msg_to_be_sent, temp_buff);
+
+		strcat(msg_to_be_sent, &comma);
+
+		/** Sets the luminosity "lum":value*/
+		strcat(msg_to_be_sent, lum_json);
+		memset(temp_buff, '\0', sizeof(temp_buff));
+		itoa(light_calc, temp_buff, DECIMAL_BASE);
+		strcat(msg_to_be_sent, temp_buff);
+
+		strcat(msg_to_be_sent, &eom);
+
+		/** Gets the string length*/
+		msg_to_be_sent_len = strlen(msg_to_be_sent);
+
+		serial.print(msg_to_be_sent);
+
+#endif
 
 		/** Publishes a message*/
 #if(SSL_EN)
