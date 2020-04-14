@@ -51,12 +51,23 @@ do not publish any sensitive data.*/
 #define SER_PORT_BR		(115200)
 
 /** Defines the time between two messages (ms)*/
-#define DELAY_TIME		(60000)
+#define DELAY_TIME		(600000)
 /** Defines the delay between two I2C readings (ms)*/
 #define I2C_DELAY		(50)
 
 /** Defines the value to set decimal base (itoa function)*/
 #define DECIMAL_BASE	(10)
+
+/** Defines the digital pin 0*/
+#define DIG_0			(0)
+/** Defines the digital pin 1*/
+#define DIG_1			(1)
+/** Defines the digital pin 2*/
+#define DIG_2			(2)
+/** LED off state for pull-down*/
+#define LED_OFF			(LOW)
+/** LED on stat for pull-down*/
+#define LED_ON			(HIGH)
 /**************** DEFINES ***************************************************/
 
 
@@ -70,15 +81,24 @@ int light_pin = A1;
 /** Variable for the light sensor reading*/
 int light_read = 0;
 /** Variable to calculate the luminosity*/
-int light_calc = 0;
+double light_calc = 0;
 
 /** Variable for the humidity*/
 int humidity = 0;
 /** Variable for the temperature*/
 int temperature = 0;
+/** Variable to store light as an integer*/
+int luminosity = 0;
 
 /** Variable for the timestamp*/
 unsigned long timestamp = 0;
+
+/** LED for when de device is connected to GPRS*/
+int gprs_led = DIG_0;
+/** LED for when the device has published*/
+int publish_led = DIG_1;
+/** LED for when the device has connected to MQTT*/
+int mqtt_led = DIG_2;
 
 /** SIM pin*/
 const char pin[]  = "1111";
@@ -207,9 +227,10 @@ void connect()
 			Serial.print(".");
 			delay(1000);
 		}
-
 		/** Repeats process until connected to network*/
 	}
+	/** Turns on connectivity LED*/
+	digitalWrite(gprs_led, LED_ON);
 
 	Serial.print("\nconnecting...");
 
@@ -224,6 +245,9 @@ void connect()
 		delay(1000);
 	}
 
+	/** Turns on MQTT connection LED*/
+	digitalWrite(mqtt_led, LED_ON);
+
 	Serial.println("\nconnected!");
 }
 /**************** CONNECT ***************************************************/
@@ -237,6 +261,16 @@ void setup()
 	/** Initializes serial communication through USB*/
 	Serial.begin(SER_PORT_BR);
 	Serial.print("Initialized\n");
+
+	/** Initializes the 3 LED pins*/
+	pinMode(gprs_led, OUTPUT);
+	pinMode(publish_led, OUTPUT);
+	pinMode(mqtt_led, OUTPUT);
+
+	/** Turns off the 3 LEDs*/
+	digitalWrite(gprs_led, LED_OFF);
+	digitalWrite(publish_led, LED_OFF);
+	digitalWrite(mqtt_led, LED_OFF);
 
 #if(!SSL_EN)
 	/** Connects to MQTT broker*/
@@ -277,6 +311,9 @@ void loop()
 	if (!client.connected())
 #endif
 	{
+		/** Turns off both MQTT and GPRS connection LEDs*/
+		digitalWrite(gprs_led, LED_OFF);
+		digitalWrite(mqtt_led, LED_OFF);
 		connect();
 	}
 
@@ -301,13 +338,17 @@ void loop()
 		/** Reads the light sensor*/
 		light_read	= analogRead(light_pin);
 		/** Calculates the luminosity in Lux*/
+  		light_calc = ((double)(light_read) * 5) / (1023 * 1.094555);
 		light_calc = (light_calc / (10 * 68000 * 0.000001 * 1.1075));
 		light_calc = pow(10, light_calc);
+
+		/** Cast into integer to be sent by the device*/
+		luminosity = (int)(light_calc);
 
 		/** Pass the variables through the passwords*/
 		temperature ^= temperature_pswd;
 		humidity ^= humidity_pswd;
-		light_calc ^= luminosity_pswd;
+		luminosity ^= luminosity_pswd;
 
 
 #if(TEST_MSG)
@@ -356,7 +397,7 @@ void loop()
 		/** Sets the luminosity "lum":value*/
 		strcat(msg_to_be_sent, lum_json);
 		memset(temp_buff, '\0', sizeof(temp_buff));
-		itoa(light_calc, temp_buff, DECIMAL_BASE);
+		itoa(luminosity, temp_buff, DECIMAL_BASE);
 		strcat(msg_to_be_sent, temp_buff);
 
 		strcat(msg_to_be_sent, eom);
@@ -371,6 +412,11 @@ void loop()
 #else
 		client.publish(topic, msg_to_be_sent, msg_to_be_sent_len);
 #endif
+
+		/** Turns off the publish LED only for one second*/
+		digitalWrite(publish_led, LED_ON);
+		delay(2000);
+		digitalWrite(publish_led, LED_OFF);
 
 		Serial.println("\nPublish!");
 	}
