@@ -78,7 +78,7 @@ int humidity = 0;
 int temperature = 0;
 
 /** Variable for the timestamp*/
-int timestamp = 0;
+unsigned long timestamp = 0;
 
 /** SIM pin*/
 const char pin[]  = "1111";
@@ -132,8 +132,6 @@ int temperature_pswd = 0x4D3;
 int humidity_pswd = 0x6FA;
 /** Password to encrypt luminosity value*/
 int luminosity_pswd = 0xC37B8;
-/** Password to encrypt timestamp value*/
-int timestamp_pswd;
 
 /** Counter for the XOR application*/
 int xor_counter = 0;
@@ -307,7 +305,6 @@ void loop()
 		light_calc = pow(10, light_calc);
 
 		/** Pass the variables through the passwords*/
-		timestamp ^= timestamp_pswd;
 		temperature ^= temperature_pswd;
 		humidity ^= humidity_pswd;
 		light_calc ^= luminosity_pswd;
