@@ -4,9 +4,10 @@ import math
 import random
 
 # Token given by ubidots to publish into the devices
-TOKEN = "Ubidots_device_token"
+# (Ubidots App)
+TOKEN = "ubidots_given_token"
 # Davice to which the data will be published
-DEVICE_LABEL = "Ubidots_Device_Label"
+DEVICE_LABEL = "device_label"
 # Ubidots URL
 address = "http://industrial.api.ubidots.com"
 
