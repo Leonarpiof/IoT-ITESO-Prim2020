@@ -39,7 +39,7 @@ do not publish any sensitive data.*/
 	Usually:
 	1883 -> MQTT not secure
 	8883 -> MQTT secure*/
-#define PORT			(8883)
+#define PORT			(1883)
 /** Max message size*/
 #define MSG_SIZE		(100)
 /** IMEI size*/
@@ -149,11 +149,11 @@ const char hum_json[] = "\"hum\":";
 /** JSON string for luminosity*/
 const char lum_json[] = "\"lum\":";
 /** Quotes character for JSON message*/
-const char quotes = '\"';
+const char quotes[] = "\"";
 /** Comma character for JSON message*/
-const char comma = ',';
+const char comma[] = ",";
 /** Closing braces for JSON message*/
-const char eom = '}';
+const char eom[] = "}";
 
 #if(SSL_EN)
 
@@ -326,11 +326,11 @@ void loop()
 
 		/** Sets the first variable {"IMEI":"value"*/
 		strcat(msg_to_be_sent, imei_json);
-		strcat(msg_to_be_sent, &quotes);
+		strcat(msg_to_be_sent, quotes);
 		strcat(msg_to_be_sent, IMEI);
-		strcat(msg_to_be_sent, &quotes);
+		strcat(msg_to_be_sent, quotes);
 
-		strcat(msg_to_be_sent, &comma);
+		strcat(msg_to_be_sent, comma);
 
 		/** Sets the timestamp "timestamp":value*/
 		strcat(msg_to_be_sent, time_json);
@@ -338,7 +338,7 @@ void loop()
 		itoa(timestamp, temp_buff, DECIMAL_BASE);
 		strcat(msg_to_be_sent, temp_buff);
 
-		strcat(msg_to_be_sent, &comma);
+		strcat(msg_to_be_sent, comma);
 
 		/** Sets the temperature "temp":value*/
 		strcat(msg_to_be_sent, temp_json);
@@ -346,7 +346,7 @@ void loop()
 		itoa(temperature, temp_buff, DECIMAL_BASE);
 		strcat(msg_to_be_sent, temp_buff);
 
-		strcat(msg_to_be_sent, &comma);
+		strcat(msg_to_be_sent, comma);
 
 		/** Sets the humidity "hum":value*/
 		strcat(msg_to_be_sent, hum_json);
@@ -354,7 +354,7 @@ void loop()
 		itoa(humidity, temp_buff, DECIMAL_BASE);
 		strcat(msg_to_be_sent, temp_buff);
 
-		strcat(msg_to_be_sent, &comma);
+		strcat(msg_to_be_sent, comma);
 
 		/** Sets the luminosity "lum":value*/
 		strcat(msg_to_be_sent, lum_json);
@@ -362,13 +362,10 @@ void loop()
 		itoa(light_calc, temp_buff, DECIMAL_BASE);
 		strcat(msg_to_be_sent, temp_buff);
 
-		strcat(msg_to_be_sent, &eom);
+		strcat(msg_to_be_sent, eom);
 
 		/** Gets the string length*/
 		msg_to_be_sent_len = strlen(msg_to_be_sent);
-
-		serial.print(msg_to_be_sent);
-
 #endif
 
 		/** Publishes a message*/
