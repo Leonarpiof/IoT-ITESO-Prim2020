@@ -7955,18 +7955,18 @@ Source: www.kingbright.com</description>
 <part name="R11" library="Arduino-rcl" deviceset="R" device="-0402" technology="-0R" value="0R"/>
 <part name="R18" library="Arduino-rcl" deviceset="R" device="-0402" technology="-DNP" value="DNP"/>
 <part name="GND12" library="Arduino-supply" deviceset="GND" device="" value="GND"/>
-<part name="I2C_SCL_TH_PAD" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
-<part name="I2C_SDA_TH_PAD" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
-<part name="I2C_VCC_3V3_TH_PAD" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
-<part name="I2C_GND_TH_PAD" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
-<part name="GA1A1S202_ANALOG_IN_TH_PAD" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
-<part name="GA1A1S202_VCC_3V3_TH_PAD" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
-<part name="GA1A1S202_GND_TH_PAD" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
+<part name="SCL" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
+<part name="SDA" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
+<part name="VCC_" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
+<part name="GND_" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
+<part name="A_IN" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
+<part name="VCC" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
+<part name="GND" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="2,15/1,0" device="" package3d_urn="urn:adsk.eagle:package:30831/1"/>
 <part name="GND4" library="Arduino-supply" deviceset="GND" device="" value="GND"/>
 <part name="+3V1" library="Arduino-supply" deviceset="+3V3" device="" value="+3V3"/>
 <part name="GND7" library="Arduino-supply" deviceset="GND" device="" value="GND"/>
-<part name="LED1" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
-<part name="LED2" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
+<part name="GSM_CN" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
+<part name="PUBLISH" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
 <part name="LED3" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
 <part name="R2" library="Arduino-rcl" deviceset="R" device="-0402" technology="-1K" value="1k"/>
 <part name="R4" library="Arduino-rcl" deviceset="R" device="-0402" technology="-1K" value="1k"/>
@@ -8257,32 +8257,32 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <instance part="GND12" gate="1" x="198.12" y="158.75" smashed="yes" rot="R180">
 <attribute name="VALUE" x="200.66" y="161.29" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="I2C_SCL_TH_PAD" gate="1" x="281.94" y="63.5" smashed="yes">
-<attribute name="NAME" x="280.543" y="62.8142" size="1.778" layer="95" rot="MR0"/>
+<instance part="SCL" gate="1" x="281.94" y="63.5" smashed="yes">
+<attribute name="NAME" x="280.543" y="62.8142" size="1.016" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="280.797" y="60.198" size="1.778" layer="96"/>
 </instance>
-<instance part="I2C_SDA_TH_PAD" gate="1" x="281.94" y="60.96" smashed="yes">
-<attribute name="NAME" x="280.543" y="60.2742" size="1.778" layer="95" rot="MR0"/>
+<instance part="SDA" gate="1" x="281.94" y="60.96" smashed="yes">
+<attribute name="NAME" x="280.543" y="60.2742" size="1.27" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="280.797" y="57.658" size="1.778" layer="96"/>
 </instance>
-<instance part="I2C_VCC_3V3_TH_PAD" gate="1" x="281.94" y="58.42" smashed="yes">
-<attribute name="NAME" x="280.543" y="57.7342" size="1.778" layer="95" rot="MR0"/>
+<instance part="VCC_" gate="1" x="281.94" y="58.42" smashed="yes">
+<attribute name="NAME" x="280.543" y="57.7342" size="1.016" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="280.797" y="55.118" size="1.778" layer="96"/>
 </instance>
-<instance part="I2C_GND_TH_PAD" gate="1" x="281.94" y="55.88" smashed="yes">
-<attribute name="NAME" x="280.543" y="55.1942" size="1.778" layer="95" rot="MR0"/>
+<instance part="GND_" gate="1" x="281.94" y="55.88" smashed="yes">
+<attribute name="NAME" x="280.543" y="55.1942" size="1.4224" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="280.797" y="52.578" size="1.778" layer="96"/>
 </instance>
-<instance part="GA1A1S202_ANALOG_IN_TH_PAD" gate="1" x="254" y="76.2" smashed="yes" rot="R180">
-<attribute name="NAME" x="255.397" y="76.8858" size="1.778" layer="95" rot="MR180"/>
+<instance part="A_IN" gate="1" x="254" y="76.2" smashed="yes" rot="R180">
+<attribute name="NAME" x="255.397" y="76.8858" size="1.016" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="255.143" y="79.502" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="GA1A1S202_VCC_3V3_TH_PAD" gate="1" x="254" y="78.74" smashed="yes" rot="R180">
-<attribute name="NAME" x="255.397" y="79.4258" size="1.778" layer="95" rot="MR180"/>
+<instance part="VCC" gate="1" x="254" y="78.74" smashed="yes" rot="R180">
+<attribute name="NAME" x="255.397" y="79.4258" size="0.6096" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="255.143" y="82.042" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="GA1A1S202_GND_TH_PAD" gate="1" x="254" y="73.66" smashed="yes" rot="R180">
-<attribute name="NAME" x="255.397" y="74.3458" size="1.778" layer="95" rot="MR180"/>
+<instance part="GND" gate="1" x="254" y="73.66" smashed="yes" rot="R180">
+<attribute name="NAME" x="255.397" y="74.3458" size="1.016" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="255.143" y="76.962" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="GND4" gate="1" x="285.75" y="50.8" smashed="yes">
@@ -8294,11 +8294,11 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <instance part="GND7" gate="1" x="247.65" y="68.58" smashed="yes">
 <attribute name="VALUE" x="245.11" y="66.04" size="1.778" layer="96"/>
 </instance>
-<instance part="LED1" gate="G$1" x="246.38" y="48.26" smashed="yes" rot="MR90">
+<instance part="GSM_CN" gate="G$1" x="246.38" y="48.26" smashed="yes" rot="MR90">
 <attribute name="NAME" x="241.808" y="51.816" size="1.778" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="241.808" y="53.975" size="1.778" layer="96" rot="MR180"/>
 </instance>
-<instance part="LED2" gate="G$1" x="246.38" y="40.64" smashed="yes" rot="MR90">
+<instance part="PUBLISH" gate="G$1" x="246.38" y="40.64" smashed="yes" rot="MR90">
 <attribute name="NAME" x="241.808" y="44.196" size="1.778" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="241.808" y="46.355" size="1.778" layer="96" rot="MR180"/>
 </instance>
@@ -8327,7 +8327,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 </instance>
 </instances>
 <busses>
-<bus name="PA03_VREFA,PA02_AIN0,PB02_AIN10,PB03_AIN11,PA04_AIN4,PA05_AIN5,PA06_AIN6,PA07_AIN7,PA22_TC4-W0,PA23_TC4-W1,PA10_TCC0-W2,PA11_TCC0-W3,PB10_TCC0-W4,PB11_TCC0-W5,PA20_TCC0-W6,PA21_TCC0-W7,PA16_S1_MOSI,PA17_S1_SCK,PA19_S1_MISO,PA08_S0_I2C_SDA,PA09_S0_I2C_SCL,PB23_S5_RX,PB22_S5_TX,RESET#">
+<bus name="PA02_AIN0,PA03_VREFA,PA04_AIN4,PA05_AIN5,PA06_AIN6,PA07_AIN7,PA08_S0_I2C_SDA,PA09_S0_I2C_SCL,PA10_TCC0-W2,PA11_TCC0-W3,PA16_S1_MOSI,PA17_S1_SCK,PA19_S1_MISO,PA20_TCC0-W6,PA21_TCC0-W7,PA22_TC4-W0,PA23_TC4-W1,PB02_AIN10,PB03_AIN11,PB10_TCC0-W4,PB11_TCC0-W5,PB22_S5_TX,PB23_S5_RX,RESET#">
 <segment>
 <wire x1="213.36" y1="107.95" x2="213.36" y2="27.94" width="0.762" layer="92"/>
 <wire x1="213.36" y1="27.94" x2="210.82" y2="25.4" width="0.762" layer="92"/>
@@ -8485,13 +8485,13 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <pinref part="GND12" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="I2C_GND_TH_PAD" gate="1" pin="P"/>
+<pinref part="GND_" gate="1" pin="P"/>
 <pinref part="GND4" gate="1" pin="GND"/>
 <wire x1="284.48" y1="55.88" x2="285.75" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="285.75" y1="55.88" x2="285.75" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="GA1A1S202_GND_TH_PAD" gate="1" pin="P"/>
+<pinref part="GND" gate="1" pin="P"/>
 <pinref part="GND7" gate="1" pin="GND"/>
 <wire x1="251.46" y1="73.66" x2="247.65" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="247.65" y1="73.66" x2="247.65" y2="71.12" width="0.1524" layer="91"/>
@@ -8502,7 +8502,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <wire x1="215.9" y1="76.2" x2="251.46" y2="76.2" width="0.1524" layer="91"/>
 <label x="218.44" y="76.454" size="1.778" layer="95"/>
 <wire x1="213.36" y1="73.66" x2="215.9" y2="76.2" width="0.1524" layer="91"/>
-<pinref part="GA1A1S202_ANALOG_IN_TH_PAD" gate="1" pin="P"/>
+<pinref part="A_IN" gate="1" pin="P"/>
 </segment>
 <segment>
 <wire x1="186.69" y1="45.72" x2="184.15" y2="48.26" width="0.1524" layer="91"/>
@@ -8518,13 +8518,19 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <pinref part="U7" gate="G$1" pin="A4"/>
 <wire x1="176.53" y1="137.16" x2="173.99" y2="134.62" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="U1" gate="A" pin="PA07"/>
+<wire x1="148.59" y1="78.74" x2="184.658" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="184.658" y1="78.74" x2="186.817" y2="76.581" width="0.1524" layer="91"/>
+<label x="153.797" y="79.375" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="PA22_TC4-W0" class="0">
 <segment>
 <wire x1="215.9" y1="48.26" x2="241.3" y2="48.26" width="0.1524" layer="91"/>
 <label x="218.44" y="48.514" size="1.778" layer="95"/>
 <wire x1="213.36" y1="45.72" x2="215.9" y2="48.26" width="0.1524" layer="91"/>
-<pinref part="LED1" gate="G$1" pin="C"/>
+<pinref part="GSM_CN" gate="G$1" pin="C"/>
 </segment>
 <segment>
 <wire x1="186.69" y1="50.8" x2="184.15" y2="53.34" width="0.1524" layer="91"/>
@@ -8538,7 +8544,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <wire x1="215.9" y1="40.64" x2="241.3" y2="40.64" width="0.1524" layer="91"/>
 <label x="218.44" y="40.894" size="1.778" layer="95"/>
 <wire x1="213.36" y1="38.1" x2="215.9" y2="40.64" width="0.1524" layer="91"/>
-<pinref part="LED2" gate="G$1" pin="C"/>
+<pinref part="PUBLISH" gate="G$1" pin="C"/>
 </segment>
 <segment>
 <wire x1="186.69" y1="48.26" x2="184.15" y2="50.8" width="0.1524" layer="91"/>
@@ -8574,6 +8580,12 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <pinref part="U7" gate="G$1" pin="A2"/>
 <wire x1="176.53" y1="142.24" x2="173.99" y2="139.7" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="U1" gate="A" pin="PA11"/>
+<wire x1="148.59" y1="68.58" x2="183.642" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="183.642" y1="68.58" x2="186.436" y2="65.786" width="0.1524" layer="91"/>
+<label x="153.67" y="69.215" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="PA09_S0_I2C_SCL" class="0">
 <segment>
@@ -8584,7 +8596,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <wire x1="304.8" y1="78.74" x2="304.8" y2="63.5" width="0.1524" layer="91"/>
 <junction x="304.8" y="63.5"/>
 <wire x1="337.82" y1="60.96" x2="335.28" y2="63.5" width="0.1524" layer="91"/>
-<pinref part="I2C_SCL_TH_PAD" gate="1" pin="P"/>
+<pinref part="SCL" gate="1" pin="P"/>
 </segment>
 <segment>
 <wire x1="186.69" y1="71.12" x2="184.15" y2="73.66" width="0.1524" layer="91"/>
@@ -8602,7 +8614,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <wire x1="307.34" y1="78.74" x2="307.34" y2="60.96" width="0.1524" layer="91"/>
 <junction x="307.34" y="60.96"/>
 <wire x1="337.82" y1="58.42" x2="335.28" y2="60.96" width="0.1524" layer="91"/>
-<pinref part="I2C_SDA_TH_PAD" gate="1" pin="P"/>
+<pinref part="SDA" gate="1" pin="P"/>
 </segment>
 <segment>
 <wire x1="186.69" y1="73.66" x2="184.15" y2="76.2" width="0.1524" layer="91"/>
@@ -8654,7 +8666,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
 <wire x1="307.34" y1="91.44" x2="307.34" y2="93.98" width="0.1524" layer="91"/>
 <junction x="307.34" y="91.44"/>
-<pinref part="I2C_VCC_3V3_TH_PAD" gate="1" pin="P"/>
+<pinref part="VCC_" gate="1" pin="P"/>
 <wire x1="284.48" y1="58.42" x2="299.72" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="299.72" y1="58.42" x2="299.72" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="299.72" y1="91.44" x2="304.8" y2="91.44" width="0.1524" layer="91"/>
@@ -8717,7 +8729,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <wire x1="208.28" y1="232.41" x2="208.28" y2="231.14" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="GA1A1S202_VCC_3V3_TH_PAD" gate="1" pin="P"/>
+<pinref part="VCC" gate="1" pin="P"/>
 <pinref part="+3V1" gate="G$1" pin="+3V3"/>
 <wire x1="251.46" y1="78.74" x2="246.38" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="246.38" y1="78.74" x2="246.38" y2="83.82" width="0.1524" layer="91"/>
@@ -9177,14 +9189,14 @@ MKR GSM 1400, Arturo Guadalupi</text>
 </net>
 <net name="N$2" class="0">
 <segment>
-<pinref part="LED1" gate="G$1" pin="A"/>
+<pinref part="GSM_CN" gate="G$1" pin="A"/>
 <wire x1="248.92" y1="48.26" x2="255.27" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="N$4" class="0">
 <segment>
-<pinref part="LED2" gate="G$1" pin="A"/>
+<pinref part="PUBLISH" gate="G$1" pin="A"/>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="248.92" y1="40.64" x2="255.27" y2="40.64" width="0.1524" layer="91"/>
 </segment>

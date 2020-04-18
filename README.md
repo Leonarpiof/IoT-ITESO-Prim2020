@@ -22,4 +22,4 @@ Contains the Lambda deploy package, which has the lambda function handler, and t
 Contains the schematics made for the project, and other PCB related files, such as the board file and the BOM.
 
 ### Scripts
-Contains Python (v3.8) scripts to test different elements such as Ubidots, Mosquitto, and other features. For this scripts to work, it is necessary to install paho-mqtt and requests. Scripts developed in Python 3.8.1
+Contains Python scripts to test different elements such as Ubidots, Mosquitto, and other features. For this scripts to work, it is necessary to install paho-mqtt and requests. Scripts developed in Python 3.8.1
