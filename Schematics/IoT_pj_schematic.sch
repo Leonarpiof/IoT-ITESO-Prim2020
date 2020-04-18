@@ -7967,7 +7967,7 @@ Source: www.kingbright.com</description>
 <part name="GND7" library="Arduino-supply" deviceset="GND" device="" value="GND"/>
 <part name="GSM_CN" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
 <part name="PUBLISH" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
-<part name="LED3" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
+<part name="MQTT_CON" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="SML0603" package3d_urn="urn:adsk.eagle:package:15832/1"/>
 <part name="R2" library="Arduino-rcl" deviceset="R" device="-0402" technology="-1K" value="1k"/>
 <part name="R4" library="Arduino-rcl" deviceset="R" device="-0402" technology="-1K" value="1k"/>
 <part name="R6" library="Arduino-rcl" deviceset="R" device="-0402" technology="-1K" value="1k"/>
@@ -8302,7 +8302,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <attribute name="NAME" x="241.808" y="44.196" size="1.778" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="241.808" y="46.355" size="1.778" layer="96" rot="MR180"/>
 </instance>
-<instance part="LED3" gate="G$1" x="246.38" y="33.02" smashed="yes" rot="MR90">
+<instance part="MQTT_CON" gate="G$1" x="246.38" y="33.02" smashed="yes" rot="MR90">
 <attribute name="NAME" x="241.808" y="36.576" size="1.778" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="241.808" y="38.735" size="1.778" layer="96" rot="MR180"/>
 </instance>
@@ -8558,7 +8558,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 <wire x1="215.9" y1="33.02" x2="241.3" y2="33.02" width="0.1524" layer="91"/>
 <label x="215.9" y="33.274" size="1.778" layer="95"/>
 <wire x1="213.36" y1="30.48" x2="215.9" y2="33.02" width="0.1524" layer="91"/>
-<pinref part="LED3" gate="G$1" pin="C"/>
+<pinref part="MQTT_CON" gate="G$1" pin="C"/>
 </segment>
 <segment>
 <wire x1="186.69" y1="68.58" x2="184.15" y2="71.12" width="0.1524" layer="91"/>
@@ -9203,7 +9203,7 @@ MKR GSM 1400, Arturo Guadalupi</text>
 </net>
 <net name="N$25" class="0">
 <segment>
-<pinref part="LED3" gate="G$1" pin="A"/>
+<pinref part="MQTT_CON" gate="G$1" pin="A"/>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="248.92" y1="33.02" x2="255.27" y2="33.02" width="0.1524" layer="91"/>
 </segment>
