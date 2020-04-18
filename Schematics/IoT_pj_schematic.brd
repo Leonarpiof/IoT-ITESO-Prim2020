@@ -191,6 +191,8 @@ by Leon Arpio Fernandez.</text>
 <dimension x1="0" y1="0" x2="58.801" y2="0" x3="29.4005" y3="-5.207" textsize="1.778" layer="25"/>
 <dimension x1="58.801" y1="0" x2="58.801" y2="37.084" x3="65.151" y3="18.542" textsize="1.778" layer="25"/>
 <text x="51.562" y="29.591" size="0.6096" layer="25">J6</text>
+<text x="43.942" y="4.953" size="0.8128" layer="25">Leon Arpio
+Ing. Electronica ITESO</text>
 </plain>
 <libraries>
 <library name="Arduino-utility">
