@@ -140,7 +140,7 @@ const char password[] = "movistar";
 const char mqtt_server[] = "test.mosquitto.org";
 #else
 /** AWS server address*/
-const char mqtt_server[] = "a2rn7z7nyv71kk-ats.iot.us-east-2.amazonaws.com";
+const char mqtt_server[] = "your-aws.broker.address.dom";
 #endif
 
 /** Variables to store the device's IMEI*/
@@ -148,7 +148,7 @@ String imei_str;
 char IMEI[IMEI_SIZE] = {0};
 
 /** MQTT topic into which the data will be published*/
-const char topic[] = "/greenhouse1/secA";
+const char topic[] = "/your/topic";
 
 /** Array to store the message to be sent*/
 char msg_to_be_sent[MSG_SIZE] = {0};
