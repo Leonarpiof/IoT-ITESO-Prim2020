@@ -51,7 +51,7 @@ do not publish any sensitive data.*/
 #define SER_PORT_BR		(115200)
 
 /** Defines the time between two messages (ms)*/
-#define DELAY_TIME		(600000)
+#define DELAY_TIME		(60000)
 /** Defines the delay between two I2C readings (ms)*/
 #define I2C_DELAY		(50)
 
@@ -68,6 +68,11 @@ do not publish any sensitive data.*/
 #define LED_OFF			(LOW)
 /** LED on stat for pull-down*/
 #define LED_ON			(HIGH)
+
+#define V_REF			(3.3)
+#define ADC_RES_BITS	(1023)
+#define LIGHT_SENSOR_R	(68000)
+#define uA_1			(0.000001)
 /**************** DEFINES ***************************************************/
 
 
@@ -337,10 +342,12 @@ void loop()
 
 		/** Reads the light sensor*/
 		light_read	= analogRead(light_pin);
+		/** Gets the voltage value read by the ADC*/
+  		light_calc = ((double)(light_read) * V_REF) / (ADC_RES_BITS);
 		/** Calculates the luminosity in Lux*/
-  		light_calc = ((double)(light_read) * 5) / (1023 * 1.094555);
-		light_calc = (light_calc / (10 * 68000 * 0.000001 * 1.1075));
+		light_calc = (light_calc / (10 * LIGHT_SENSOR_R * uA_1));
 		light_calc = pow(10, light_calc);
+		Serial.println(light_calc);
 
 		/** Cast into integer to be sent by the device*/
 		luminosity = (int)(light_calc);
