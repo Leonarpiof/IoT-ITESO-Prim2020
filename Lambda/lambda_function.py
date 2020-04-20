@@ -4,7 +4,7 @@ import time
 import boto3
 
 # Ubidots access token
-TOKEN = "BBFF-mimwlgWwTC29aKimKv0jOU57SVNikeEK6J58eJqeibsoxMtNgqoFA4m"
+TOKEN = "your-ubidots-token"
 # Ubidots stem address
 address = "http://industrial.api.ubidots.com"
 
