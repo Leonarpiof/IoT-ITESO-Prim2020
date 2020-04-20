@@ -69,10 +69,20 @@ do not publish any sensitive data.*/
 /** LED on stat for pull-down*/
 #define LED_ON			(HIGH)
 
+/** Reference voltage for the ADC*/
 #define V_REF			(3.3)
+/** ADC resolution of the MKR GSM 1400*/
 #define ADC_RES_BITS	(1023)
+/** Resistor of the luminosity sensor*/
 #define LIGHT_SENSOR_R	(68000)
+/** Value to define 1 micro A*/
 #define uA_1			(0.000001)
+
+/** Defines a delay of 1 second*/
+#define ONE_SEC_DELAY	(1000)
+/** Defines the time the publish LED will be on (ms)*/
+#define PUB_LED_DELAY	(2000)
+
 /**************** DEFINES ***************************************************/
 
 
@@ -230,7 +240,7 @@ void connect()
 		else
 		{
 			Serial.print(".");
-			delay(1000);
+			delay(ONE_SEC_DELAY);
 		}
 		/** Repeats process until connected to network*/
 	}
@@ -247,7 +257,7 @@ void connect()
 #endif
 	{
 		Serial.print(".");
-		delay(1000);
+		delay(ONE_SEC_DELAY);
 	}
 
 	/** Turns on MQTT connection LED*/
@@ -422,7 +432,7 @@ void loop()
 
 		/** Turns off the publish LED only for one second*/
 		digitalWrite(publish_led, LED_ON);
-		delay(2000);
+		delay(PUB_LED_DELAY);
 		digitalWrite(publish_led, LED_OFF);
 
 		Serial.println("\nPublish!");
