@@ -51,7 +51,7 @@ def post_request(payload, device_label):
 # Lambda function handler
 def lambda_handler(event, context):
 	# Dictionary to be sent to Ubidots with error values
-	msg_to_be_sent = {"temp":{"value": -1, "timestamp": 0}, "hum":-1, "lum":-1}
+	msg_to_be_sent = {"temp":"value": -1, "hum":-1, "lum":-1}
 
 	# Decrypts the messages
 	event["temp"] ^= temp_pswd
