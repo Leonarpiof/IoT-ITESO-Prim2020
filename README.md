@@ -17,11 +17,13 @@ customer journey, and others. **All documentas are in Spanish**.
 
 ### Lambda
 Contains the Lambda deploy package, which has the lambda function handler, and the necessary libraries for the project to work, that are not included in AWS Lambda. Developed in Python 3.8. For the Lambda deploy package download Python library [requests](https://requests.readthedocs.io/en/master/).
+
 To install the library in a specific folder, navigate in the command line to the desired folder, and use the following command.
-'''
+
+```
 pip install requests -t .
-'''
-Download [pip](https://pip.pypa.io/en/stable/reference/pip_download/)
+```
+- Download [pip](https://pip.pypa.io/en/stable/reference/pip_download/)
 
 ### Schematics
 Contains the schematic, board file and BOM. Schematic based on [Arduino MKR GSM 1400 schematic](https://store.arduino.cc/usa/mkr-gsm-1400).
